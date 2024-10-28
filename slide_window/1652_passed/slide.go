@@ -7,13 +7,19 @@ import (
 func decrypt(code []int, k int) []int {
 	l := len(code)
 	ans := make([]int, l)
-	switch {
-	case k == 0:
-		return ans
-	case k > 0:
-		return ans
-	case k < 0:
-		return ans
+	r := k + 1
+	if k < 0 {
+		r = l
+		k = -k
+	}
+	s := 0
+	for _, v := range code[r-k : r] {
+		s += v
+	}
+	for i := range ans {
+		ans[i] = s
+		s += code[r%l] - code[(r-k)%l]
+		r++
 	}
 	return ans
 }
